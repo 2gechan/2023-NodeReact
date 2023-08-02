@@ -23,7 +23,7 @@
 - 생성된 폴더에서 터미널 창을 열고 `npm init` 명령 실행, package.json 파일이 생성된다. 이 파일에 NodeJS 프로젝트 설정 항목이 들어있다.
 - 다음과 같이 package.json을 변경한다
 
-```bash
+```
 {
   "name": "node-000-hello",
   "version": "1.0.0",
@@ -49,7 +49,7 @@
 2. 프로젝트 시작 : 생성한 폴더로 이동 후 `npm init`
 3. package.json에 다음 설정
 
-```bash
+```
 {
   "name": "react-000-hello",
   "version": "1.0.0",

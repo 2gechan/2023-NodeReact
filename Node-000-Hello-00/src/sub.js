@@ -12,3 +12,5 @@ const Rt = () => "대한민국";
 
 // js 코드에서 한개의 함수에만 지정할 수 있다.
 export default Rt;
+
+export { sum, sub, mul };
