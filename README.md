@@ -23,7 +23,7 @@
 - 생성된 폴더에서 터미널 창을 열고 `npm init` 명령 실행, package.json 파일이 생성된다. 이 파일에 NodeJS 프로젝트 설정 항목이 들어있다.
 - 다음과 같이 package.json을 변경한다
 
-```
+```bash
 {
   "name": "node-000-hello",
   "version": "1.0.0",
@@ -49,7 +49,7 @@
 2. 프로젝트 시작 : 생성한 폴더로 이동 후 `npm init`
 3. package.json에 다음 설정
 
-```
+```bash
 {
   "name": "react-000-hello",
   "version": "1.0.0",
@@ -74,7 +74,7 @@
 }
 ```
 
-4. dependency 설정
+# dependency 설정
 
 ```bash
 npm install react
@@ -82,7 +82,8 @@ npm install react-dom
 npm install react-scripts
 ```
 
-5. project 구성
+# project 구성
+
 1. `public 폴더 생성`, `index.html` 파일 생성 gkrh `div#root` tag 생성
 
 ```html
@@ -92,6 +93,19 @@ npm install react-scripts
 ```
 
 2. `src`폴더 생성 `App.js` 파일 생성하고
+
+```js
+const App = () => {
+  return (
+    <div>
+      <button>클릭하세요</button>
+    </div>
+  );
+};
+export default App;
+```
+
+3. `src/index.js` 파일 생성하고
 
 ```js
 import React from "react";
@@ -105,3 +119,7 @@ root.render(
   </React.StrictMode>
 );
 ```
+
+## create-react-app을 이용한 React Project 생성
+
+`npx create-react-app [proejct 이름]`
