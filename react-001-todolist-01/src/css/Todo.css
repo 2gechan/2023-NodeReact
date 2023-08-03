@@ -93,3 +93,7 @@
   text-decoration-color: red;
   color: #999;
 }
+
+div {
+  user-select: none;
+}

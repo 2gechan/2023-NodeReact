@@ -8,9 +8,18 @@ const TodoList = (props) => {
   // todoList 데이터의 각 요소를 item 이라는 변수(properties)에 담아서
   // TodoItem에 전달하는 Component List를 만들기
 
-  const { todoList } = props;
+  const { todoList, itemComplete, itemDelete, updateItemSelect } = props;
+
   const todoItemList = todoList.map((todo) => {
-    return <TodoItem item={todo} />;
+    return (
+      <TodoItem
+        item={todo}
+        key={todo.id}
+        itemComplete={itemComplete}
+        itemDelete={itemDelete}
+        updateItemSelect={updateItemSelect}
+      />
+    );
   });
   return <>{todoItemList}</>;
 };
