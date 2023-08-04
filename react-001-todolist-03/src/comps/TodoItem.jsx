@@ -1,9 +1,10 @@
-// 부모 Component에서 전달한 Properties는 props 라는 키워드를
-// 매개변수로 지정하여 받는다.
+// 부모 Component 에서 전달한 Properties 는 props 라는 키워드를
+// 매개변수로 지정하여 받는다
 const TodoItem = (props) => {
   const { item, itemComplete, itemDelete, updateItemSelect } = props;
+
   const compClickHandler = (e, id) => {
-    // 완료 버튼을 클릭했을 때 완료 처리
+    // 완료 버튼을 클릭했을때 완료 처리
     itemComplete(id);
   };
 

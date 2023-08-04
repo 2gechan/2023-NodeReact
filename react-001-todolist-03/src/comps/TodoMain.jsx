@@ -1,114 +1,112 @@
 import TodoInput from "./TodoInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../css/Todo.css";
 import TodoList from "./TodoList";
-import { SampleData } from "../data/SampleTodo";
 
-// JS에서 날짜와 관련된 여러가지 문제를 해결한 plug in
-// Date라고 하는 날짜와 관련된 객체가 있지만
-// 실무에서는 거의 moment를 사용한다.
-import moment from "moment";
+// initData.js 에서 export 한 함수들 중에서
+// initData() 함수만 필요하니 구조분해를 통하여 import
+import { initData } from "../data/initData";
+// uuid()
+// react-uuid의 export type이 무엇일까
+import uuid from "react-uuid";
+
+// dto.initData()
+// dto.func1()
+// import dto from "../data/initData"
 
 const TodoMain = () => {
-  /**
-   * State 끌어 올리기
-   * TodoInput과 TodoList에 있던 state 들을
-   * TodoMain 부모 컴포넌트로 이동
-   * 1. TodoInput 에서 입력된 content state의 값을
-   * 2. TodoList 의 todoList state 배열에 추가하여
-   * 3. TodoList > TodoItem을 통하여 화면에 출력해야 한다.
-   *
-   * 이 상황에서 TodoInput과 TodoList는 같은 부모의 형제간이다.
-   *    React 에서는 형제간에 state를 절대 공유할 수 없다.
-   *    React 부모가 만들어서 전달해준 State 만 볼 수 있다
-   *    자식이 만든 State는 부모도 볼 수 없다
-   *
-   * 이 상황을 해결하기 위하여 자식 Comps 있던 state와 state 함수를
-   * 부모 Comps인 TodoMain 으로 끌어 올리기를 한다.
-   * 그리고, 자식 Comps 에 전달해주어야 한다.
-   */
-  const [todo, setTodo] = useState(null);
-  const [content, setContent] = useState("");
-  const [todoList, setTodoList] = useState([]);
+  // initData() 함수를 실행하여
+  // initData() 함수가 생성한(return 한) 객체로 todo 를 초기화
+  const [todo, setTodo] = useState(() => initData());
 
-  const todoListAdd = (todo) => {
-    const id = todoList[todoList.length - 1]?.id + 1 || 0;
-    const addTodo = {
-      id: id,
-      sdate: moment().format("YYYY[-]MM[-]DD"),
-      stime: moment().format("HH:mm:ss"),
-      content: todo,
-      complete: false,
+  // const [content, setContent] = useState("");
+  const [todoList, setTodoList] = useState(() => {
+    return localStorage.getItem("TODOLIST")
+      ? JSON.parse(localStorage.getItem("TODOLIST"))
+      : [];
+  });
+
+  useEffect(() => {
+    const resetTodo = () => {
+      setTodo(initData());
+      console.log("Use Effect");
+      localStorage.setItem("TODOLIST", JSON.stringify(todoList));
     };
-    setTodoList([...todoList, addTodo]);
+    resetTodo();
+  }, [todoList]);
+
+  // 입력한 TodoContent 를 사용하여 새로운 Todo 추가하기
+  const todoListAdd = (content) => {
+    const newTodo = { ...todo, id: uuid(), content: content };
+    setTodoList([...todoList, newTodo]);
   };
 
+  // Todo 완료처리
   const itemComplete = (id) => {
-    // 완료처리예정
-    const compTodoList = todoList.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, complete: !todo.complete };
+    const compTodoList = todoList.map((item) => {
+      if (item.id === id) {
+        // todo.complete 속성을 반전(NOT)시키기
+        // true 이면 false, false 이면 true
+        return { ...item, complete: !item.complete };
       }
-      return todo;
+      return item;
     });
     setTodoList([...compTodoList]);
   };
 
   const itemDelete = (id) => {
-    // id에 해당하는 데이터 삭제
+    // id 에 해당하는 데이터 삭제
     if (window.confirm("정말 삭제 할거야?")) {
-      // list를 forEach 하면서 item의 id와 일치하는 데이터가 있으면
-      // 해당 데이터를 제외하면서 새로운 리스트 만들기
-      // 전달받은 ID와 일치하지 않은 item만 모아서 새로운 배열 만들기
-      const deleteTodoList = todoList.filter((todo) => {
-        // filter는 true 데이터들만 리스트를 새로 만들어 반환해준다.
-        // 선택된 id와 id가 다른 데이터들만 리스트에 담기게된다.
-        return todo.id !== id;
+      const deleteTodoList = todoList.filter((item) => {
+        return item.id !== id;
       });
       setTodoList([...deleteTodoList]);
     }
   };
 
-  // content를 클릭했을 때 선택된 item을 찾아주는 함수
+  // Content 를 클릭했을때 선택된 item 을 찾아주는 함수
   const updateItemSelect = (id) => {
-    const selectTodoList = todoList.filter((todo) => {
-      return todo.id === id;
+    // 전달받은 id 값은 PK 적인 성질을 가지므로
+    // id 에 해당하는 List 만 추출하면 그결과는 item 이
+    // 한개인 List 가 생성된다
+    const selectTodoList = todoList.filter((item) => {
+      return item.id === id;
     });
-    setContent(selectTodoList[0].content);
+    // update 를 위한 Todo 데이터 생성
     setTodo({ ...selectTodoList[0] });
   };
-  // 내용을 변경하고 저장을 클릭했을 때 내용을 변경하는 함수
-  const updateItemOK = (text) => {
-    if (todo) {
-      const updateTodo = { ...todo, content: text };
+
+  // 내용을 변경하고 저장을 클릭했을때
+  // Update and Insert 를 실행하는 함수
+  const todoInput = (content) => {
+    // id 값이 null 또는 "" 이면 List 에 추가하기
+    if (!todo.id) {
+      todoListAdd(content);
+      // id 값이 null 또는 "" 이 아니면 Update 실행
+    } else {
       const updateTodoList = todoList.map((item) => {
         if (item.id === todo.id) {
-          return updateTodo;
+          return { ...item, content: content };
         }
         return item;
       });
+      // setState 함수
       setTodoList(updateTodoList);
-      setTodo(null);
-    } else {
-      todoListAdd(text);
     }
+    // Add 또는 Update 를 실행 후 Todo 를 초기화 하기
+    // setTodo(initData());
   };
 
   return (
     <div className="todo">
-      <TodoInput
-        content={content}
-        setContent={setContent}
-        todoListAdd={updateItemOK}
-      />
+      <TodoInput todo={todo} setTodo={setTodo} todoInput={todoInput} />
       <TodoList
+        itemDelete={itemDelete}
         todoList={todoList}
         itemComplete={itemComplete}
-        itemDelete={itemDelete}
         updateItemSelect={updateItemSelect}
       />
     </div>
   );
 };
-
 export default TodoMain;
