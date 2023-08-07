@@ -40,7 +40,7 @@ if (!num) {
 
 const strName = null;
 if (!strName) console.log("이름이 없어요");
-if (strName === null || strNum === "") console.log("이름이 없다");
+if (strName === null || strName === "") console.log("이름이 없다");
 
 console.log(strName || "홍길동");
 
