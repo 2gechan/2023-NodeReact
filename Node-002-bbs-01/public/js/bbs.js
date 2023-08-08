@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     galleryImageThumb.innerHTML = "";
     for (let file of files) {
       const reader = new FileReader();
+
       reader.onload = (fe) => {
         const img = document.createElement("img");
         img.src = fe.target.result;
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         img.height = 100;
         galleryImageThumb.appendChild(img);
       };
+      // 업로드된 파일 읽기가 끝나면 reader.onload 함수가 실행
       reader.readAsDataURL(file);
     }
   });
