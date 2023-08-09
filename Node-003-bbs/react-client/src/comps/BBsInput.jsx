@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { filePreview, filesPreview } from "../modules/ImagePreview";
+import { bbsInsert } from "../modules/FetchModules";
 
 const BBsInput = () => {
+  const [bbs, setBBs] = useState({
+    b_seq: 0,
+    b_nickname: "",
+    b_title: "",
+    b_content: "",
+  });
   const [image, setImage] = useState("");
   const [images, setImages] = useState([]);
 
@@ -32,12 +39,56 @@ const BBsInput = () => {
     console.log(imgSrcList.length);
     setImages(imgSrcList);
   };
+
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setBBs({ ...bbs, [name]: value });
+  };
+
+  /**
+   * fetch를 통해서 서버로 데이터, 이미지를 전송하기
+   * 1. formData 만들기
+   * 2. formData에 각 데이터를 append
+   * 3. fetch 보내기
+   */
+  const insertButtonClickHandler = async (e) => {
+    // alert("hello");
+    // js에서 제공하는 Http 객체다
+    const formData = new FormData();
+    formData.append("b_title", bbs.b_title);
+    formData.append("b_nickname", bbs.b_nickname);
+    formData.append("b_content", bbs.b_content);
+    // let keys = formData.values();
+    // for (let aa of keys) {
+    //   console.log(aa);
+    // }
+    await bbsInsert(formData);
+  };
+
   return (
     <section>
       <div className="bbs input">
-        <input type="text" name="b_title" placeholder="제목" />
-        <input type="text" name="b_nickname" placeholder="작성자" />
-        <input type="text" name="b_content" placeholder="내용" />
+        <input
+          type="text"
+          name="b_title"
+          placeholder="제목"
+          value={bbs.b_title}
+          onChange={inputChangeHandler}
+        />
+        <input
+          type="text"
+          name="b_nickname"
+          placeholder="작성자"
+          value={bbs.b_nickname}
+          onChange={inputChangeHandler}
+        />
+        <input
+          type="text"
+          name="b_content"
+          placeholder="내용"
+          value={bbs.b_content}
+          onChange={inputChangeHandler}
+        />
       </div>
       <div className="image main">
         <label htmlFor="main_image">대표이미지</label>
@@ -63,7 +114,7 @@ const BBsInput = () => {
         <div className="thumb gallery">{thumbImages}</div>
       </div>
       <div className="button">
-        <button>저장</button>
+        <button onClick={insertButtonClickHandler}>저장</button>
       </div>
       <div className="view"></div>
     </section>

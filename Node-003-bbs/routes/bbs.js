@@ -19,9 +19,9 @@ router.get("/", async (req, res, next) => {
   res.json(Hello);
 });
 
-router.post("/insert", (req, res) => {
+router.post("/insert", async (req, res) => {
   const body = req.body;
-  console.log(body);
+  console.log("body", body);
   res.send("OK");
 });
 

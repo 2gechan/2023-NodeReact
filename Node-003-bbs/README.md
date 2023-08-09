@@ -75,3 +75,26 @@ const initModels = (sequelize) => {
 
 - `app.js`에서 DB.sequelize.sync() 함수 점검
 - 서버 start, table 삭제 후 서버 restart 하여 table 생성하기
+
+## Client JS 에서 FormData에 담긴 body 데이터 받기
+
+- JS에서 FormData에 Text, Image 등을 append하여 서버로 보내면 기본 설정에서는 이 데이터를 수신하지 못한다.
+- FormData를 수신하기 위하여 middle ware를 설치한다. : `npm install multer`
+- app.js에 multer 설정
+
+```js
+import multer from "multer";
+
+app.set("view engine", "pug");
+
+app.use(logger("dev"));
+
+// view engine과 logger 사이에 설정
+app.set("view engine", "pug");
+
+// multer middle ware 설치
+app.use(multer().array());
+
+// middleWare enable
+app.use(logger("dev"));
+```
