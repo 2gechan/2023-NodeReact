@@ -3,11 +3,34 @@ import { filePreview, filesPreview } from "../modules/ImagePreview";
 
 const BBsInput = () => {
   const [image, setImage] = useState("");
+  const [images, setImages] = useState([]);
+
+  const setMainImage = (image) => {
+    setImage(image);
+  };
+
+  const thumbImages = images.map((image) => {
+    return (
+      <img
+        src={image}
+        width="50px"
+        alt=""
+        onClick={(e) => setMainImage(image)}
+      />
+    );
+  });
 
   const fileChangeHandler = async (e) => {
-    const imgSrc = filePreview(e.target.files[0]);
-    console.log(imgSrc);
-    // setImage(filePreview(e.target.files[0]));
+    const imgSrc = await filePreview(e.target.files[0]);
+
+    setImage(imgSrc);
+  };
+
+  const filesChangeHandler = async (e) => {
+    const files = e.target.files;
+    const imgSrcList = await Promise.all(filesPreview(files));
+    console.log(imgSrcList.length);
+    setImages(imgSrcList);
   };
   return (
     <section>
@@ -35,8 +58,9 @@ const BBsInput = () => {
           type="file"
           accept="image/*"
           multiple="multiple"
+          onChange={filesChangeHandler}
         />
-        <div className="thumb gallery"></div>
+        <div className="thumb gallery">{thumbImages}</div>
       </div>
       <div className="button">
         <button>저장</button>

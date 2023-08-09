@@ -19,4 +19,10 @@ router.get("/", async (req, res, next) => {
   res.json(Hello);
 });
 
+router.post("/insert", (req, res) => {
+  const body = req.body;
+  console.log(body);
+  res.send("OK");
+});
+
 export default router;
