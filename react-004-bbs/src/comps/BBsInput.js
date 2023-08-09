@@ -4,8 +4,13 @@ import { BBsDto } from "../data/BBsDto";
 const BBsInput = () => {
   const [bbs, setBbs] = useState(BBsDto);
   const [image, setImage] = useState("");
+  const [images, setImages] = useState([]);
   const imageRef = useRef(null);
   const imagesRef = useRef(null);
+
+  const thumbImages = images.map((image) => {
+    return <img src={image} width="50px" />;
+  });
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -22,6 +27,50 @@ const BBsInput = () => {
     fileReader.readAsDataURL(file);
     // console.log(file.name);
   };
+
+  const filesChangeHandler = (e) => {
+    /**
+     * JS 에서는 진짜배열과 유사배열이 있다
+     * 진짜배열은 순수하게 데이터만 가지고 있는 배열
+     * const arr = [1,2,3,4,5,5,6,7,7,8]
+     *
+     * img tag 들을 요소로 갖는 배열 : 유사배열
+     * const images = document.querySelectAll("img")
+     * console.log(images[0].src)
+     *
+     * 고전적인 for 반복문은 정상적으로 작동된다
+     * for(let i = 0 ; i < images.length ; i++) {
+     *      console.log(images[i].src)
+     * }
+     *
+     * 새로운 forEach(map, filter 등등이 포함) 는 사용 불가!!
+     * images.forEach(image=.{} )
+     *
+     * 만약 유사배열을 새로운 forEach() 로 사용하기 위해서는
+     * 진짜배열로 변환해 주어야 한다.
+     * const 진짜배열 = Array.from(유사배열) : 유사배열을 진짜 배열로 변환
+     *
+     */
+
+    const files = e.target.files;
+    console.log(files.length);
+    Array.from(files).forEach((file) => {
+      const fileReader = new FileReader();
+      fileReader.onloadend = (fe) => {
+        // setImages() 가 files 의 개수만큼 실행되는 구조
+        // 만약에 files 개수가 10개 이면 setImages() 함수가 10번 실행되고
+        // 화면이 10번 reRendering 될것이다
+        // 현재버전의 React 에서는 여러번의 setState() 함수가 반복 실행되면
+        // 이들을 모아서 한번에 Batch 처리를 해 버린다
+        // 때문에 원하는 데이터가 state 에 반영이 되지 않는다
+        // 그래서 setState() 에 데이터를 직접 주입하지 않고
+        // Callback 함수 방식으로 주입한다
+        setImages((images) => [...images, fe.target.result]);
+      };
+      fileReader.readAsDataURL(file);
+    });
+  };
+
   return (
     <section>
       <div className="bbs input">
@@ -57,7 +106,7 @@ const BBsInput = () => {
           ref={imageRef}
         />
         <div className="thumb main">
-          <img src={image ? image : ``} />
+          <img src={image ? image : ``} width="100px" />
         </div>
       </div>
       <div className="image gallery">
@@ -67,11 +116,11 @@ const BBsInput = () => {
           type="file"
           accept="image/*"
           multiple="multiple"
-          onChange={fileChangeHandler}
+          onChange={filesChangeHandler}
           // React에서 각 요소의 key 역할을 하는 속성
           ref={imagesRef}
         />
-        <div className="thumb gallery"></div>
+        <div className="thumb gallery">{thumbImages}</div>
       </div>
       <div className="button">
         <button>저장</button>
