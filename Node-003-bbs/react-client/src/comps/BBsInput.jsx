@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { filePreview, filesPreview } from "../modules/ImagePreview";
 import { bbsInsert } from "../modules/FetchModules";
 
@@ -11,6 +11,7 @@ const BBsInput = () => {
   });
   const [image, setImage] = useState("");
   const [images, setImages] = useState([]);
+  const imgRef = useRef(null);
 
   const setMainImage = (image) => {
     setImage(image);
@@ -55,9 +56,12 @@ const BBsInput = () => {
     // alert("hello");
     // js에서 제공하는 Http 객체다
     const formData = new FormData();
-    formData.append("b_title", bbs.b_title);
-    formData.append("b_nickname", bbs.b_nickname);
-    formData.append("b_content", bbs.b_content);
+    formData.append("bbs", bbs);
+    // document.querySelector("#b_img").files[0] 와 같다.
+    formData.append("b_img", imgRef.current.files[0]);
+    // formData.append("b_title", bbs.b_title);
+    // formData.append("b_nickname", bbs.b_nickname);
+    // formData.append("b_content", bbs.b_content);
     // let keys = formData.values();
     // for (let aa of keys) {
     //   console.log(aa);
@@ -97,6 +101,7 @@ const BBsInput = () => {
           type="file"
           accept="image/*"
           onChange={fileChangeHandler}
+          ref={imgRef}
         />
         <div className="thumb main">
           <img src={image ? image : ``} width="100px" />

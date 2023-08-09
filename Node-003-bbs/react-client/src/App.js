@@ -4,6 +4,9 @@ import "./css/BBS.css";
 import { useState, useEffect } from "react";
 import BBsMain from "./comps/BBsMain";
 import { hello } from "./modules/FetchModules";
+import NavList from "./layout/NavList";
+import MainRouter from "./layout/MainRouter";
+import { Outlet } from "react-router-dom";
 
 // 여기는 App.js
 function App() {
@@ -46,8 +49,14 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>{title ? title : "React BBS Project"}</p>
+        <div>
+          <input placeholder="아무거나 입력하기"></input>
+        </div>
       </header>
-      <BBsMain />
+      <NavList />
+
+      {/* Router 에서 children 으로 설정된 component가 표시되는 위치 */}
+      <Outlet />
     </div>
   );
 }
