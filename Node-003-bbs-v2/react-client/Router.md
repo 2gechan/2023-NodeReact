@@ -4,3 +4,11 @@
 - 도구 설치 : `npm install react-router-dom`
 - react-router-dom 은 5.x 버전과 6.x 버전은 호환되지 않는다.
 - 6.x 버전에서는 Navigation 설정 부분이 새롭게 만들어지고, Menu 만들기가 매우 쉬워졌다.
+
+## react-router-dom을 이용한 Menu 생성
+
+- `NavList.jsx` 파일에서 화면에 보여질 Menu를 구현했다
+- `NavLink` 컴포넌트를 사용하여 각 a Link를 구현
+- `MainRouter.js`(Navigation Provider) 에서 Link가 클릭되었을 때 보여질 화면의 layout을 구현한다.
+- 최상단의 index.js에 부착하고 App.js를 최 상단 layout 컴포넌트로 구현
+- App.js에는 `<Outlet/>` 컴포넌트가 위치하고 여기에 메뉴를 클릭했을 때 보여질 컴포넌트들이 위치하게 된다.
