@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { filePreview, filesPreview } from "../modules/ImagePreview";
 import { bbsInsert } from "../modules/FetchModules";
+import css from "../css/BBsInput.module.css";
 
 const BBsInput = () => {
   const [bbs, setBBs] = useState({
@@ -12,6 +13,7 @@ const BBsInput = () => {
   const [image, setImage] = useState("");
   const [images, setImages] = useState([]);
   const imgRef = useRef(null);
+  const imgsRef = useRef(null);
 
   const setMainImage = (image) => {
     setImage(image);
@@ -56,69 +58,97 @@ const BBsInput = () => {
     // alert("hello");
     // js에서 제공하는 Http 객체다
     const formData = new FormData();
+    const file = imgRef?.current.files[0];
+    const files = imgsRef.current.files;
+
+    // formData에 bbs(JSON 객체)를 실어서 서버로 보낼때는
+    // 객체를 직접 보낼 수 없다.
+    // 객체를 Serialize(직렬화, 문자열화)
+    const bbsStr = JSON.stringify(bbs);
+
+    // node의 router Upload 미들웨어에서 받을 이름에
+    // 모든 파일 정보를 append()
+    // 대표이미지
+    formData.append("b_images", file);
+    // 갤러리 이미지들
+    for (let file of files) {
+      formData.append("b_images", file);
+    }
+    formData.append("bbs", bbsStr);
+
     // formData.append("bbs", bbs);
     // document.querySelector("#b_img").files[0] 와 같다.
     // formData.append("b_img", imgRef.current.files[0]);
-    formData.append("b_title", bbs.b_title);
-    formData.append("b_nickname", bbs.b_nickname);
-    formData.append("b_content", bbs.b_content);
-    let keys = formData.values();
-    // for (let aa of keys) {
-    //   console.log(aa);
-    // }
+    // formData.append("b_title", bbs.b_title);
+    // formData.append("b_nickname", bbs.b_nickname);
+    // formData.append("b_content", bbs.b_content);
+
     await bbsInsert(formData);
   };
 
   return (
-    <section>
-      <div className="bbs input">
-        <input
-          type="text"
-          name="b_title"
-          placeholder="제목"
-          value={bbs.b_title}
-          onChange={inputChangeHandler}
-        />
-        <input
-          type="text"
-          name="b_nickname"
-          placeholder="작성자"
-          value={bbs.b_nickname}
-          onChange={inputChangeHandler}
-        />
-        <input
-          type="text"
-          name="b_content"
-          placeholder="내용"
-          value={bbs.b_content}
-          onChange={inputChangeHandler}
-        />
-      </div>
-      <div className="image main">
-        <label htmlFor="main_image">대표이미지</label>
-        <input
-          id="main_image"
-          type="file"
-          accept="image/*"
-          onChange={fileChangeHandler}
-          ref={imgRef}
-        />
-        <div className="thumb main">
-          <img src={image ? image : ``} width="100px" />
+    <section className={css.main}>
+      <div className={css.input_container}>
+        <div>
+          <label>제목</label>
+          <input
+            type="text"
+            name="b_title"
+            placeholder="제목"
+            value={bbs.b_title}
+            onChange={inputChangeHandler}
+          />
+        </div>
+        <div>
+          <label>작성자</label>
+          <input
+            type="text"
+            name="b_nickname"
+            placeholder="작성자"
+            value={bbs.b_nickname}
+            onChange={inputChangeHandler}
+          />
+        </div>
+        <div>
+          <label>내용</label>
+          <input
+            type="text"
+            name="b_content"
+            placeholder="내용"
+            value={bbs.b_content}
+            onChange={inputChangeHandler}
+          />
         </div>
       </div>
-      <div className="image gallery">
-        <label htmlFor="gallery_images">갤러리</label>
-        <input
-          id="gallery_images"
-          type="file"
-          accept="image/*"
-          multiple="multiple"
-          onChange={filesChangeHandler}
-        />
-        <div className="thumb gallery">{thumbImages}</div>
+      <div className={css.image_box}>
+        <div>
+          <label htmlFor="main_image">대표이미지를 선택하세요</label>
+          <input
+            id="main_image"
+            type="file"
+            accept="image/*"
+            onChange={fileChangeHandler}
+            ref={imgRef}
+          />
+          <div className={css.thumb}>
+            <img src={image ? image : ``} width="100px" />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="gallery_images">갤러리 이미지를 선택하세요</label>
+          <input
+            id="gallery_images"
+            type="file"
+            accept="image/*"
+            multiple="multiple"
+            onChange={filesChangeHandler}
+            ref={imgsRef}
+          />
+          <div className={css.thumb}>{thumbImages}</div>
+        </div>
       </div>
-      <div className="button">
+      <div className={css.button}>
         <button onClick={insertButtonClickHandler}>저장</button>
       </div>
       <div className="view"></div>

@@ -15,7 +15,7 @@ import helmet from "helmet";
 // 3rd party lib modules
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import multer from "multer";
+// import multer from "multer";
 
 // MySQL Sequelize
 import DB from "../models/index.js";
@@ -43,6 +43,18 @@ app.disable("x-powered-by");
 // view engine setup
 app.set("views", path.join("views"));
 app.set("view engine", "pug");
+
+/**
+ * app.use()
+ * 클라이언트에서 요청이 올라오면 모든 요청을 처리하는 함수
+ * 이 요청들을 처리한 후 router로 전송된다.
+ * app.use()를 통하여 여러가지 전역 변수, 미들웨어, 각종 설정 등을 할 수 있다.
+ */
+// 클라이언트의 모든 요청은 req.uploadPath 값을 사용할 수 있다.
+app.use((req, res, next) => {
+  req.uploadPath = path.join("react-client/build/static/upload");
+  next();
+});
 
 // multer middle ware 설치
 // app.use(multer().array());

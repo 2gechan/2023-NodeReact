@@ -1,11 +1,8 @@
 import logo from "./logo.svg";
 import "./css/App.css";
-import "./css/BBS.css";
 import { useState, useEffect } from "react";
-import BBsMain from "./comps/BBsMain";
 import { hello } from "./modules/FetchModules";
 import NavList from "./layout/NavList";
-import MainRouter from "./layout/MainRouter";
 import { Outlet } from "react-router-dom";
 
 // 여기는 App.js
