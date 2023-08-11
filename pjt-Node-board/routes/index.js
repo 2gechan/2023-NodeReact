@@ -2,7 +2,7 @@ import DB from "../models/index.js";
 import express from "express";
 import multer from "multer";
 import fs from "fs";
-
+import Sequelize from "sequelize";
 const router = express.Router();
 const BOARD = DB.models.tbl_board;
 
@@ -49,7 +49,16 @@ router.get("/findone", async (req, res) => {
   const findBoard = await BOARD.findOne({
     where: { b_seq: id },
   });
-  res.json(findBoard);
+
+  let count = parseInt(findBoard.b_viewcount);
+  count = count + 1;
+
+  BOARD.update({ b_viewcount: count }, { where: { b_seq: findBoard.b_seq } });
+
+  const updatedBoard = await BOARD.findOne({
+    where: { b_seq: id },
+  });
+  res.json(updatedBoard);
 });
 
 router.get("/delete", async (req, res) => {
@@ -62,7 +71,7 @@ router.get("/delete", async (req, res) => {
 router.post("/update", uploadMiddleWare.none(""), async (req, res) => {
   const body = req.body;
   const boardDto = JSON.parse(body.UPDATE);
-  console.log(boardDto.b_title);
+  // console.log(boardDto.b_title);
 
   await BOARD.update(
     {
@@ -75,10 +84,5 @@ router.post("/update", uploadMiddleWare.none(""), async (req, res) => {
     }
   );
   res.json({ ok: true });
-
-  router.get("/detail", async (req, res) => {
-    const id = req.query.id;
-    console.log(id);
-  });
 });
 export default router;

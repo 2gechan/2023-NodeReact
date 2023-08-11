@@ -21,7 +21,6 @@ const BoardList = () => {
     const tr = target.closest("TR");
     // alert(tr.dataset.id);
 
-    await fetch(`/detail?id=${tr.dataset.id}`);
     navigate(`/detail/${tr.dataset.id}`);
   };
   const boardItemList = board.map((item) => {

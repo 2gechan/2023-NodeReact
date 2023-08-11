@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-export default function (sequelize) {
+export default (sequelize) => {
   return sequelize.define(
     "tbl_board",
     {
@@ -48,4 +48,4 @@ export default function (sequelize) {
       ],
     }
   );
-}
+};

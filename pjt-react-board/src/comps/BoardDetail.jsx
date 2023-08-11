@@ -8,11 +8,10 @@ const BoardDetail = () => {
     const getBoardOne = async (id) => {
       const res = await fetch(`/findone?id=${id}`);
       const result = await res.json();
-
       setFindBoard(result);
     };
     getBoardOne(id);
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
   const updateButton = (e) => {
