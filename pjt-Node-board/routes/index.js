@@ -50,15 +50,18 @@ router.get("/findone", async (req, res) => {
     where: { b_seq: id },
   });
 
-  let count = parseInt(findBoard.b_viewcount);
-  count = count + 1;
+  await findBoard.increment("b_viewcount", { by: 1 });
+  // res.json(findBoard);
 
-  BOARD.update({ b_viewcount: count }, { where: { b_seq: findBoard.b_seq } });
+  // let count = parseInt(findBoard.b_viewcount);
+  // count = count + 1;
 
-  const updatedBoard = await BOARD.findOne({
-    where: { b_seq: id },
-  });
-  res.json(updatedBoard);
+  // BOARD.update({ b_viewcount: count }, { where: { b_seq: findBoard.b_seq } });
+
+  // const updatedBoard = await BOARD.findOne({
+  //   where: { b_seq: id },
+  // });
+  res.json(findBoard);
 });
 
 router.get("/delete", async (req, res) => {
@@ -84,5 +87,14 @@ router.post("/update", uploadMiddleWare.none(""), async (req, res) => {
     }
   );
   res.json({ ok: true });
+});
+
+const Op = Sequelize.Op;
+
+router.get("/best", async (req, res, next) => {
+  const board = await BOARD.findAll({
+    where: { b_viewcount: { [Op.gt]: 30 } },
+  });
+  res.json(board);
 });
 export default router;

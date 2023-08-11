@@ -2,16 +2,16 @@ import { useNavigate } from "react-router-dom";
 import BoardItem from "./BoardItem";
 import { useState, useEffect } from "react";
 
-const BoardList = () => {
-  const [board, setBoard] = useState([]);
+const BoardBest = () => {
+  const [best, setBest] = useState([]);
   useEffect(() => {
-    const getBoardListAll = async () => {
-      const res = await fetch("/board");
+    const getBestBoardList = async () => {
+      const res = await fetch("/best");
       const result = await res.json();
 
-      setBoard([...result]);
+      setBest([...result]);
     };
-    getBoardListAll();
+    getBestBoardList();
   }, []);
 
   const navigate = useNavigate();
@@ -23,12 +23,12 @@ const BoardList = () => {
 
     navigate(`/detail/${tr.dataset.id}`);
   };
-  const boardItemList = board.map((item) => {
+  const boardItemList = best.map((item) => {
     return <BoardItem item={item} key={item.b_seq} />;
   });
   return (
     <>
-      <h1>전체 게시판</h1>
+      <h1>베스트글</h1>
       <table className="main list">
         <thead>
           <tr>
@@ -44,4 +44,4 @@ const BoardList = () => {
     </>
   );
 };
-export default BoardList;
+export default BoardBest;

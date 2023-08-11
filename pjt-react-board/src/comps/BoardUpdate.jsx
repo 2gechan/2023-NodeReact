@@ -2,7 +2,7 @@ import { useParams, NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import moment from "moment";
 
-const BoardDetail = () => {
+const BoardUpdate = () => {
   const { id } = useParams();
 
   const [dto, setDto] = useState({});
@@ -54,6 +54,7 @@ const BoardDetail = () => {
 
   return (
     <section className="main input">
+      <h1>글 수정</h1>
       <div className="input">
         <label htmlFor="">제목</label>
         <input
@@ -104,4 +105,4 @@ const BoardDetail = () => {
     </section>
   );
 };
-export default BoardDetail;
+export default BoardUpdate;

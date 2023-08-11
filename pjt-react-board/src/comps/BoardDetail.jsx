@@ -33,6 +33,7 @@ const BoardDetail = () => {
   };
   return (
     <section className="main input">
+      <h1>자세히보기</h1>
       <div className="input">
         <label htmlFor="">제목</label>
 

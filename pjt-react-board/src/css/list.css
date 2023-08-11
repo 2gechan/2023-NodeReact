@@ -110,3 +110,7 @@ div.button.box button {
 div.button.box button:hover {
   background-color: #333;
 }
+
+h1 {
+  text-align: center;
+}

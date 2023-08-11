@@ -12,6 +12,9 @@ const BoardNav = () => {
         <li>
           <NavLink to="/boardwrite">글쓰기</NavLink>
         </li>
+        <li>
+          <NavLink to="/best">인기글</NavLink>
+        </li>
       </ul>
     </nav>
   );
