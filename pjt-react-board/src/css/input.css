@@ -50,6 +50,10 @@ div.input button {
   border-radius: 10px;
 }
 
+div.input button a {
+  color: black;
+}
+
 div.input button:hover {
   background-color: bisque;
   cursor: pointer;

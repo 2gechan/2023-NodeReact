@@ -96,15 +96,17 @@ div.button.box {
 div.button.box a {
   text-decoration: none;
   font-style: inherit;
-  color: white;
+  color: black;
 }
 
 div.button.box button {
-  background-color: black;
-  color: white;
+  background-color: antiquewhite;
+
   cursor: pointer;
   margin: 10px;
   padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
 }
 
 div.button.box button:hover {

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+
 const BoardNav = () => {
   return (
     <nav className="main menu">
@@ -7,7 +8,7 @@ const BoardNav = () => {
           <NavLink to="/">Home</NavLink>
         </li>
         <li>
-          <NavLink to="/boardlist">게시판보기</NavLink>
+          <NavLink to="/boardlist">전체게시판</NavLink>
         </li>
         <li>
           <NavLink to="/boardwrite">글쓰기</NavLink>

@@ -28,7 +28,7 @@ const BoardBest = () => {
   });
   return (
     <>
-      <h1>베스트글</h1>
+      <h1>인기글</h1>
       <table className="main list">
         <thead>
           <tr>

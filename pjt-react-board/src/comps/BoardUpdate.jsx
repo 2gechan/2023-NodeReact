@@ -54,7 +54,7 @@ const BoardUpdate = () => {
 
   return (
     <section className="main input">
-      <h1>글 수정</h1>
+      <h1>게시물 수정</h1>
       <div className="input">
         <label htmlFor="">제목</label>
         <input

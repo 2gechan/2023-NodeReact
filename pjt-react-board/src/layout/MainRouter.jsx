@@ -20,7 +20,6 @@ const MainRouter = () => {
         {
           path: "/boardlist",
           element: <BoardList />,
-          children: [],
         },
       ],
     },

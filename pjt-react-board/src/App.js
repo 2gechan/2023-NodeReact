@@ -1,8 +1,6 @@
-import BoardList from "./comps/BoardList";
-import Board_write from "./comps/BoardWrite";
-
 import "./css/list.css";
 import "./css/input.css";
+import "./css/nav.css";
 
 import BoardNav from "./layout/BoardNav";
 import { Outlet } from "react-router-dom";
