@@ -5,7 +5,7 @@ import moment from "moment";
 const BoardWrite = () => {
   const [newBoard, setNewBoard] = useState({
     b_uid: "테스트",
-    b_nickname: "",
+    b_nickname: "익명",
     b_title: "",
     b_content: "",
     b_date: moment().format("YYYY[-]MM[-]DD"),
