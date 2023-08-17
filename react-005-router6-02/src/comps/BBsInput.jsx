@@ -1,5 +1,5 @@
 // import styled from "styled-components";
-import { Form, InputDiv } from "../styled/BBsStyled";
+import { Button, Form, InputDiv } from "../styled/BBsStyled";
 // const Form = styled.form`
 //   width: 80%;
 //   margin: 10px auto;
@@ -36,21 +36,45 @@ import { Form, InputDiv } from "../styled/BBsStyled";
 //   }
 // `;
 
-const BBsInput = () => {
+const BBsInput = ({ bbsDto, setBbsDto }) => {
+  const inputOnChange = (e) => {
+    const { name, value } = e.target;
+    setBbsDto({ ...bbsDto, [name]: value });
+  };
   return (
     <Form>
       <InputDiv>
         <label htmlFor="">작성자</label>
-        <input type="text" placeholder="작성자" />
+        <input
+          type="text"
+          placeholder="작성자"
+          value={bbsDto.bWriter}
+          name="bWriter"
+          onChange={inputOnChange}
+        />
       </InputDiv>
       <InputDiv>
         <label htmlFor="">제목</label>
-        <input type="text" placeholder="제목" />
+        <input
+          type="text"
+          placeholder="제목"
+          value={bbsDto.bSubject}
+          name="bSubject"
+          onChange={inputOnChange}
+        />
       </InputDiv>
       <InputDiv>
         <label htmlFor="">내용</label>
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <textarea
+          id=""
+          cols="30"
+          rows="10"
+          value={bbsDto.bContent}
+          name="bContent"
+          onChange={inputOnChange}
+        ></textarea>
       </InputDiv>
+      <Button type="button" />
     </Form>
   );
 };

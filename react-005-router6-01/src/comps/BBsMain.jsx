@@ -2,16 +2,11 @@ import { useState, useEffect } from "react";
 import { useRoutes, Outlet, NavLink, Navigate } from "react-router-dom";
 import BBsList from "./BBsList";
 import BBsInput from "./BBsInput";
-import BBsItem from "./BBsItem";
 import { BBsDto as bbsData, BBsList as bbsListData } from "../data/BBsData";
 
 const BBsMain = () => {
   const [bbsDto, setBbsDto] = useState(bbsData);
   const [bbsList, setBbsList] = useState(bbsListData);
-
-  const bbsListItemView = bbsList.map((item) => {
-    return <BBsItem item={item} key={item.id} />;
-  });
 
   const BBsBody = () => {
     return (
@@ -33,7 +28,7 @@ const BBsMain = () => {
           path: "",
           element: (
             <>
-              <BBsList>{bbsListItemView}</BBsList>
+              <BBsList bbsList={bbsList} />
               <NavLink to={"/bbs/writer"}>글쓰기</NavLink>
             </>
           ),
