@@ -1,0 +1,14 @@
+div.input {
+  display: flex;
+}
+
+div.input div {
+  flex: 1;
+}
+
+div.input input,
+div.input textarea {
+  width: 100%;
+  margin: 5px;
+  padding: 10px;
+}

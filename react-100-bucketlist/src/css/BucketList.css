@@ -1,0 +1,10 @@
+div.list {
+  margin: 5px 10px;
+  display: flex;
+}
+
+div.list input {
+  padding: 10px;
+  margin: 0 5px;
+  flex: 1;
+}
