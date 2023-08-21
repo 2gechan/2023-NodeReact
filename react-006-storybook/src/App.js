@@ -1,7 +1,17 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Button from "./shareComps/Button";
-import BucketMain from "./comps/BucketMain";
+import MainRouterProvider from "./layout/MainRouter";
+
+/**
+ * react-router-dom v6의 Navigate 컴포넌트
+ * 어떤 URL로 요청이 들어왔을 때 다른 URL로 즉시 Redirect 하고자 할때
+ *
+ * localhost:3000/ 로 요청이 들어오면 localhost:3000/bucket 으로 보내라(이동하라)
+ */
+// const appRouter = createBrowserRouter([
+//   { path: "/", element: <Navigate to="/bucket" /> },
+//   { path: "bucket/*", element: <BucketMain /> },
+// ]);
 
 function App() {
   return (
@@ -9,8 +19,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
+
       <section className="main">
-        <BucketMain />
+        <MainRouterProvider />
       </section>
     </div>
   );

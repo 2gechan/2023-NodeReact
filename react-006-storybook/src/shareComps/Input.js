@@ -39,9 +39,7 @@ const SearchInput = styled.input`
  * 파라미터가 전달되지 않았을 때 name은 "이몽룡", age는 0으로 값이 세팅된다.
  */
 const Input = ({ name = "", placeholder = "검색어를 입력하세요" }) => (
-  <Container>
-    <SearchInput name={name} placeholder={placeholder} />
-  </Container>
+  <SearchInput name={name} placeholder={placeholder} />
 );
 
 export default Input;
